@@ -110,7 +110,7 @@ module.exports = async ({ github, context, fs, customDomain }) => {
   };
 
   const mergeExistingPRComments = async () => {
-    let commentBody = `${GMTConverter(defaultBody)}\n`;
+    let commentBody = alignRight(`${GMTConverter(defaultBody)}\n`);
     botCommentsArray.forEach(({ body }) => {
       console.log("Merging");
       console.log(body);
