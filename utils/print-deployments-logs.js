@@ -30,7 +30,11 @@ module.exports = async ({ github, context, fs, customDomain }) => {
   };
 
   const alignRight = (bodyData) => {
-    return `<div align="right"><p>${bodyData}</p></div>`
+    if (!bodyData.startsWith('<div align="right">') {
+      return `<div align="right"><p>${bodyData}</p></div>`;
+    } else {
+      return bodyData;
+    }
   };
 
   const sortComments = (bodyData) => {
@@ -110,7 +114,7 @@ module.exports = async ({ github, context, fs, customDomain }) => {
     botCommentsArray.forEach(({ body }) => {
       console.log("Merging");
       console.log(body);
-      commentBody = commentBody + `${GMTConverter(body)}\n`;
+      commentBody = commentBody + `${GMTConverter(alignRight(body))}\n`;
     });
     await createNewPRComment(commentBody);
     await deleteExistingPRComments();
