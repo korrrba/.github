@@ -54,6 +54,7 @@ module.exports = async ({ github, context, fs, customDomain }) => {
 
   const createNewCommitComment = async (body = defaultBody) => {
     body = GMTConverter(body);
+    console.log(body);
     verifyInput(body) &&
       (await github.rest.repos.createCommitComment({
         owner: context.repo.owner,
@@ -65,6 +66,7 @@ module.exports = async ({ github, context, fs, customDomain }) => {
 
   const createNewPRComment = async (body = defaultBody) => {
     body = GMTConverter(body);
+    console.log(body);
     verifyInput(body) &&
       (await github.rest.issues.createComment({
         owner: context.repo.owner,
@@ -77,6 +79,8 @@ module.exports = async ({ github, context, fs, customDomain }) => {
   const editExistingPRComment = async () => {
     const { body: botBody, id: commentId } = botCommentsArray[0];
     let commentBody = `${GMTConverter(defaultBody)}\n` + `${GMTConverter(botBody)}`;
+    console.log("Edit existing");
+    console.log(commendBody);
     verifyInput(commentBody) &&
       (await github.rest.issues.updateComment({
         owner: context.repo.owner,
@@ -100,6 +104,8 @@ module.exports = async ({ github, context, fs, customDomain }) => {
   const mergeExistingPRComments = async () => {
     let commentBody = `${GMTConverter(defaultBody)}\n`;
     botCommentsArray.forEach(({ body }) => {
+      console.log("Merging");
+      console.log(body);
       commentBody = commentBody + `${GMTConverter(body)}\n`;
     });
     await createNewPRComment(commentBody);
