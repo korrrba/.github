@@ -18,8 +18,7 @@ module.exports = async ({ github, context, fs, customDomain }) => {
     }
     const slicedSha = commitSha.slice(0, -33);
 
-    defaultBody = `${slicedSha}`;
-    // defaultBody = `\<div align="right"\>\<p\>\<a href="${uniqueDeployUrl}"\>\<code\>${slicedSha}\</code\>\</a\>\</p\>\</div\>`;
+    defaultBody = `<div align="right"><p><a href="${uniqueDeployUrl}"><code>${slicedSha}</code></a></p></div>`;
   }
 
   const verifyInput = (data) => {
