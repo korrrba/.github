@@ -86,7 +86,7 @@ module.exports = async ({ github, context, fs, customDomain }) => {
 
   const editExistingPRComment = async () => {
     const { body: botBody, id: commentId } = botCommentsArray[0];
-    let commentBody = alignRight(`${GMTConverter(defaultBody)}\n`) + `${GMTConverter(botBody)}`;
+    let commentBody = alignRight(`${GMTConverter(defaultBody)}\n`) + alignRight(`${GMTConverter(botBody)}`);
     console.log("Edit existing");
     console.log(commentBody);
     verifyInput(commentBody) &&
