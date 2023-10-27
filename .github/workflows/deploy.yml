@@ -75,6 +75,9 @@ jobs:
           projectName=$(echo $projectName | sed 's/\./-/g')
           echo "Found project name:"
           echo $projectName
+          echo "Listing available projects:"
+          wrangler pages project list
+          echo "Writing project list to a file..."
           wrangler pages project list > project_list.txt
           echo "Project list:"
           cat project_list.txt
