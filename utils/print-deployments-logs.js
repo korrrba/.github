@@ -18,7 +18,7 @@ module.exports = async ({ github, context, fs, customDomain }) => {
     }
     const slicedSha = commitSha.slice(0, -33);
 
-    defaultBody = `<div align="right"><p><a href="${uniqueDeployUrl}"><code>${slicedSha}</code></a></p></div>`;
+    defaultBody = `<a href="${uniqueDeployUrl}"><code>${slicedSha}</code></a>`;
   }
 
   const verifyInput = (data) => {
@@ -27,6 +27,10 @@ module.exports = async ({ github, context, fs, customDomain }) => {
 
   const GMTConverter = (bodyData) => {
     return bodyData.replace("GMT+0000 (Coordinated Universal Time)", "(UTC)");
+  };
+
+  const alignRight = (bodyData) => {
+    return `<div align="right"><p>${bodyData}</p></div>`
   };
 
   const sortComments = (bodyData) => {
@@ -60,7 +64,7 @@ module.exports = async ({ github, context, fs, customDomain }) => {
         owner: context.repo.owner,
         repo: context.repo.repo,
         commit_sha: commitSha,
-        body: body,
+        body: alignRight(body),
       }));
   };
 
@@ -72,15 +76,15 @@ module.exports = async ({ github, context, fs, customDomain }) => {
         owner: context.repo.owner,
         repo: context.repo.repo,
         issue_number: pullRequestNumber,
-        body: body,
+        body: alignRight(body),
       }));
   };
 
   const editExistingPRComment = async () => {
     const { body: botBody, id: commentId } = botCommentsArray[0];
-    let commentBody = `${GMTConverter(defaultBody)}\n` + `${GMTConverter(botBody)}`;
+    let commentBody = alignRight(`${GMTConverter(defaultBody)}\n`) + `${GMTConverter(botBody)}`;
     console.log("Edit existing");
-    console.log(commendBody);
+    console.log(commentBody);
     verifyInput(commentBody) &&
       (await github.rest.issues.updateComment({
         owner: context.repo.owner,
