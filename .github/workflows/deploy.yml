@@ -73,12 +73,15 @@ jobs:
           IFS='/' read -ra fields <<< "$REPOSITORY"
           projectName="${fields[1]}"
           projectName=$(echo $projectName | sed 's/\./-/g')
+          echo "Found project name:"
           echo $projectName
           wrangler pages project list > project_list.txt
+          echo "Project list:"
+          cat project_list.txt
           if grep -q $projectName project_list.txt; then
             echo "Project found"
           else
-            echo "Project not found"
+            echo "Project not found, creating a new project"
             wrangler pages project create "$projectName" --production-branch "$PRODUCTION_BRANCH"
           fi
           wrangler pages deploy "$OUTPUT_DIRECTORY" --project-name "$projectName" > ./deployments.log
